@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>pepi First Canvas</title>
+</head>
+<body>
+<canvas width="600" height="400" style="border:2px solid blue" id="canvas">
+  Canvas not supported
+</canvas>
+
+
+<script type="text/javascript">
+
+	drawFillRect();
+   	drawTriangle();
+	drawSmile();	
+	drawButton();
+	drawPic();
+
+	function drawFillRect() {
+		let canvas = document.getElementById("canvas");
+	    let ctx = canvas.getContext("2d"); 
+		ctx.beginPath();
+		ctx.fillStyle = "blue";
+		ctx.fillRect(0, 0, 600, 400);
+	}
+
+	function drawTriangle() {
+		let canvas = document.getElementById("canvas");
+	    let ctx = canvas.getContext("2d");
+		ctx.beginPath();
+		ctx.moveTo(20, 200);
+		ctx.lineTo(200, 50);
+		ctx.lineTo(200, 350);
+		ctx.fillStyle = "green";
+		ctx.fill();
+	}
+
+	function drawSmile() {
+		let canvas = document.getElementById("canvas");
+	    let ctx = canvas.getContext("2d");
+		ctx.beginPath();
+		ctx.arc(350, 150, 50, 0, Math.PI*2, false);
+		ctx.moveTo(385, 150);
+		ctx.arc(350, 150, 35, 0, Math.PI, false);
+		ctx.moveTo(335, 140);
+		ctx.arc(330, 140, 4, 0, Math.PI*2, true);
+		ctx.moveTo(368, 140);
+		ctx.arc(365, 140, 4, 0, Math.PI*2, true);
+		ctx.strokeStyle = "white";
+		ctx.lineWidth = 5;
+		ctx.stroke();
+	}
+
+	function drawButton() {
+		let canvas = document.getElementById("canvas");
+	    let ctx = canvas.getContext("2d");
+		ctx.fillStyle = 'black';
+		//ctx.fillRect(5, 5, 100, 40);
+		ctx.strokeStyle = "orange";
+		ctx.lineCap = "round";
+		ctx.lineWidth = 30;
+
+		ctx.beginPath();
+		ctx.moveTo(20, 20);
+		ctx.lineTo(180, 20);
+		ctx.stroke();
+
+		//Text
+		ctx.fillStyle = 'Black';
+		ctx.font = "20px monospace";
+		ctx.textAlign = "center";
+		ctx.textBaseline = "middle";
+		ctx.fillText("Button", 100, 20);
+	}
+	
+</script>
+</body>
+</html>

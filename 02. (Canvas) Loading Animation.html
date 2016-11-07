@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Canvas</title>
+</head>
+<body>
+<canvas width="600" height="400" style="border:2px solid blue" id="canvas">
+  Canvas not supported
+</canvas>
+
+<script type="text/javascript">
+    
+    tryFillRect();
+    darwAnimationLoading();
+
+    function tryFillRect() {
+        let canvas = document.getElementById("canvas");
+        let ctx = canvas.getContext("2d");
+        ctx.beginPath();
+        ctx.fillStyle = "blue";
+        ctx.fillRect(0, 0, 600, 400);
+    }   
+    
+    function drawPic() {
+        let canvas = document.getElementById("canvas");
+        let ctx = canvas.getContext("2d");
+        let img = new Image();
+        img.src = "SuperMario.jpg"
+        ctx.drawImage(img, 445, 160);
+
+        /*ctx.drawImage(image,
+            sx, sy, sWidth, sHeight,
+            dx, dy, dWidth, dHeight);
+        */      
+    }   
+
+    function darwAnimationLoading() {
+        let canvas = document.getElementById("canvas");
+        let ctx = canvas.getContext("2d");
+        //draw rect and inner rect
+        ctx.fillStyle = "black";    
+        ctx.fillRect(50, 360, 350, 30);
+        ctx.fillStyle = "white";
+        ctx.fillRect(54, 365, 342, 20);
+        ctx.fillStyle = 'red';
+
+        let loading = "Loading";
+        ctx.font = "20px monospace";
+        let percentage = 0;
+      
+        let timer = setInterval(innerRect, 1000);
+        let progress = 0;
+
+        function innerRect() {
+            ctx.fillStyle = 'red';
+            ctx.fillRect(55 + progress * 20, 366, 20, 18);
+            drawPic();
+
+            //draw Loading 
+            ctx.fillStyle = 'white';    
+            ctx.textAlign = "left";
+            ctx.fillText(loading, 80, 350);
+            if (progress % 5 == 0)
+                loading += ".";
+            progress++;
+
+            //draw % value
+            percentage += 6;
+            if (percentage < 100  ) {
+              ctx.fillStyle = 'blue';
+              ctx.fillRect(300, 315, 100, 40);
+              ctx.fillStyle = 'white';
+              ctx.fillText(percentage + " %", 305, 350);
+            } else {
+              ctx.fillStyle = 'blue';
+              ctx.fillRect(300, 315, 100, 40);
+              ctx.fillStyle = 'white';
+              ctx.fillText("100", 305, 350);
+            }
+            //end loop
+            if (progress == 17)
+                clearInterval(timer);
+        }       
+    }
+</script>
+</body>
+</html>
