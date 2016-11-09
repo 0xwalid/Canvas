@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quadratic curves</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="500" style="border: 2px solid  black"> 
+    Canvas not supported
+</canvas>
+
+<script type="text/javascript">    
+    
+    draw();
+
+    function draw() {
+        let ctx = document.getElementById('canvas').getContext('2d');
+        
+       //Quadratic curves example
+        ctx.beginPath();
+        ctx.moveTo(200,200);
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 5;
+        ctx.quadraticCurveTo(222,200,220,170);//bottom left start
+        ctx.moveTo(200,200);
+        ctx.quadraticCurveTo(230,200,230,170);//bottom right
+        ctx.moveTo(220,170);
+        ctx.quadraticCurveTo(180,175,180,140);
+        ctx.quadraticCurveTo(170,85,220,80);
+        ctx.quadraticCurveTo(310,70,305,120);
+        ctx.quadraticCurveTo(305,180,229,170);
+        ctx.stroke();
+
+        //visualize control point       
+        let cpX = 300;
+        let cpY = 245;
+        ctx.beginPath();
+        ctx.strokeStyle = "red";
+        ctx.moveTo(400,250);       
+        ctx.quadraticCurveTo(cpX,cpY,300,350);
+        ctx.fillStyle = "blue";
+        ctx.fillRect(cpX,cpY,6,6);
+        ctx.stroke();
+    }  
+</script>
+</body>
+</html>
