@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ball Animation</title>
+</head>
+<body>
+<div style="width: 200px; display: inline-block;"></div>
+<canvas id="canvas" width="800" height="500" style="border: 2px solid  black"> 
+    Canvas not supported
+</canvas>
+
+<script type="text/javascript">
+
+    drawABall();
+
+    function drawABall() {
+        let ctx = document.getElementById("canvas").getContext("2d");
+        
+        ctx.fillStyle = "green";
+        let ball = {x:100, y:100};
+        //let timet = setInterval(animate, 15);
+        let directionX = true;    // for true move rigtht 
+        let directionY = true;    // for true move down
+        animate();                // for requestAnimatinFeamre();
+
+        function animate() {
+            ctx.clearRect(0,0,800,500);
+            ctx.beginPath();
+            ctx.arc(ball.x,ball.y,50,0,Math.PI*2);
+            ctx.fill();
+
+            (directionX == true) ? ball.x += 5 : ball.x -= 5; 
+            (directionY == true) ? ball.y += 5 : ball.y -= 5; 
+
+            //for X direction constraints
+            if (ball.x >= 750) {
+                directionX = false;
+            }
+            else if (ball.x <= 50) {
+                directionX = true;
+            }
+            //for Y directin constraints
+            if (ball.y >= 450) {
+                directionY = false;
+            } else  if (ball.y <= 50){
+                directionY = true;
+            }
+
+            requestAnimationFrame(animate);          
+        }            
+    }
+</script>
+</body>
+</html>
