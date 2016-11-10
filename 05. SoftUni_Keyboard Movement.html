@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Keyboard movement</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="500" style="border: 2px solid">
+  Canvas not supported
+</canvas>
+<button id="button" style="display: block; width: 300px ; height: 80px; font-size: 35px; 
+background-color: #00AAEE">
+  Start Game
+</button>
+
+<script type="text/javascript">    
+    let btn = document.getElementById('button');
+    btn.addEventListener('click', drawABall);
+
+    function drawABall() {
+        let ctx = document.getElementById("canvas").getContext("2d");   
+        window.addEventListener('keydown', move);
+
+        ctx.fillStyle = "green";
+        let ball = {x: Math.random()*700, y: Math.random()*450 };
+        ballRendering();
+       
+        function move(event) {
+            if (event.code == "ArrowLeft") { ball.x -= 10; }
+            else if (event.code == "ArrowRight") { ball.x += 10; }
+            else if (event.code == "ArrowUp") {ball.y -= 10; }
+            else if (event.code == "ArrowDown") {ball.y += 10; }
+            ballRendering();            
+        }      
+        function ballRendering() {
+            ctx.clearRect(0,0,800,500);
+            ctx.beginPath();
+            ctx.arc(ball.x,ball.y,50,0,Math.PI*2);            
+            ctx.fill(); 
+        }      
+    }
+</script>
+</body>
+</html>
