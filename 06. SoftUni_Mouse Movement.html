@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mouse Movement</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="500" style="border: 2px solid">
+  Canvas not supported
+</canvas>
+<button id="button" style="display: block; width: 400px ; height: 80px; font-size: 35px; background-color: #00AAEE">Start Mouse Movement</button>
+
+<script type="text/javascript">
+    let btn = document.getElementById('button');
+    btn.addEventListener('click', drawABall);
+
+    function drawABall() {
+        let canvas = document.getElementById("canvas");
+        let ctx = canvas.getContext("2d");  
+
+        let ball = {
+            x: 200, 
+            y: 150,
+            draw: function() {                
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 30, 0, Math.PI*2, true);
+                ctx.fillStyle = "red";
+                ctx.fill();
+            }
+        }; 
+
+        //draw ball for first time
+        ctx.clearRect(0,0,canvas.width,canvas.height,500);
+        ball.draw();             
+
+        canvas.addEventListener('mousemove', function(e) { //or 'click'
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+            ctx.fillRect(0,0,canvas.width,canvas.height);
+            ball.x = e.clientX;
+            ball.y = e.clientY;
+            ball.draw();
+        });          
+    }
+</script>
+</body>
+</html>
