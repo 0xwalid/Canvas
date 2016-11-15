@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scale() example</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="500" style="border: 2px solid blue">Canvas not supported</canvas>
+<script type="text/javascript">
+    var ctx = document.getElementById('canvas').getContext('2d');
+    let catImg = new Image();
+    catImg.src = "theCat.png";
+
+    function draw() {        
+
+        // draw a simple rectangle, but scale it.
+        ctx.save();
+        ctx.translate(0,0);
+        ctx.scale(1, 10);
+        ctx.fillRect(0,22,10,10);
+        ctx.restore();
+
+         // mirror horizontally
+        ctx.save();
+        ctx.scale(-1, 1);
+        ctx.font = "48px serif";
+        ctx.fillText("MDN", -135, 220);
+        ctx.restore();
+
+        //cat 1 original right side
+        ctx.save();
+        ctx.translate(0,0);
+        ctx.scale(1,1);
+        ctx.drawImage(catImg,0,0,800,729,200,0,160,144);
+        ctx.restore();
+
+        //cat 2 transform to left side 
+        ctx.save();
+        ctx.translate(370,0);
+        ctx.scale(-1,1);
+        ctx.drawImage(catImg,0,0,800,729,0,150,160,144);        
+        ctx.restore();       
+    }
+
+    draw();
+
+</script>
+</body>
+</html>
