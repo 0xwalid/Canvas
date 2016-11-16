@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diagonal movement exercise</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="500" style="border: 2px solid blue">
+Canvas not supported
+</canvas>
+<script type="text/javascript">
+    let canvas = document.getElementById("canvas");
+    let ctx = canvas.getContext("2d");
+    let rectObj = {x: 100, y: 100};
+    let keysObj = {};
+
+    window.addEventListener("keydown", keysHandler);
+    window.addEventListener("keyup", keysHandler);
+
+    rectRendering();
+
+    function rectRendering() {      
+        ctx.beginPath();
+        ctx.clearRect(0,0,800,500);
+        ctx.fillRect(rectObj.x,rectObj.y,100,100);
+        ctx.closePath();
+    }
+
+    function update() {
+        if (keysObj["ArrowRight"]) {
+            rectObj.x += 5;
+        }
+        if (keysObj["ArrowLeft"]) {
+            rectObj.x -= 5;
+        }  
+        if (keysObj["ArrowDown"]) {
+            rectObj.y += 5;
+        }
+        if (keysObj["ArrowUp"]) {
+            rectObj.y -= 5;
+        } 
+        rectRendering();
+    }
+
+    function keysHandler(event) {
+        if (event.type == "keydown") {
+            keysObj[event.code] = true;
+        }  if (event.type == "keyup") {
+            delete keysObj[event.code];
+        } 
+        update();          
+    } 
+</script>
+</body>
+</html>
