@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="500" style="border: 2px solid green"></canvas>
+<script type="text/javascript">
+    let canvas = document.getElementById("canvas");
+    let ctx = canvas.getContext("2d");
+    let marioImg = new Image();
+    marioImg.src = "SuperMario.jpg";
+    let marioObj = {
+        "x": 50,
+        "y": 200,
+        "constantFloor": 200,  
+        "onGround": true
+    }
+    let keysObj = {};
+
+    window.addEventListener("keydown", keyHandler);
+    window.addEventListener("keyup", keyHandler);
+
+    function draw() {        
+        ctx.beginPath();
+        ctx.fillStyle = "white";
+        ctx.fillRect(0,0,800,500);
+        ctx.drawImage(marioImg,marioObj.x,marioObj.y);
+    }
+    draw();
+
+    function physicsGravity(event) {
+        if (marioObj.onGround == false && marioObj.y < 200) {
+            marioObj.y += 5;          
+        } else if (marioObj.y >=200) {
+            marioObj.y = marioObj.constantFloor;
+            marioObj.onGround = true;
+        }
+
+        if (keysObj["ArrowRight"]) {
+            marioObj.x += 5;
+        }
+        if (keysObj["ArrowLeft"]) {
+            marioObj.x -= 5;
+        } 
+        if (keysObj["Space"]) {   
+            if (marioObj.y > 20)              
+                marioObj.y -= 10;
+            if (marioObj.y < marioObj.constantFloor )  
+                marioObj.onGround = false;
+        } 
+        draw();
+    }
+
+    function keyHandler(event) {
+        if (event.type == "keydown") {
+            keysObj[event.code] = true;
+        } else if (event.type == "keyup") {
+            delete keysObj[event.code];
+        } 
+    }
+
+    setInterval(physicsGravity, 10);
+
+</script>
+</body>
+</html>
