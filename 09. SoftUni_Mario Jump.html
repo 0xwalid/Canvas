@@ -13,8 +13,11 @@
     let marioObj = {
         "x": 50,
         "y": 200,
-        "constantFloor": 200,  
-        "onGround": true
+        "constantFloor": 250,  
+        "onGround": true,
+        "onTop": false,
+        "jumpStart": false,
+        "jumpCounter": 0
     }
     let keysObj = {};
 
@@ -27,15 +30,18 @@
         ctx.fillRect(0,0,800,500);
         ctx.drawImage(marioImg,marioObj.x,marioObj.y);
     }
-    draw();
 
-    function physicsGravity(event) {
-        if (marioObj.onGround == false && marioObj.y < 200) {
-            marioObj.y += 5;          
-        } else if (marioObj.y >=200) {
-            marioObj.y = marioObj.constantFloor;
-            marioObj.onGround = true;
-        }
+    function keyHandler(event) {
+        if (event.type == "keydown") {
+            keysObj[event.code] = true;
+        } else if (event.type == "keyup") {
+            delete keysObj[event.code];
+        } 
+
+        updateControls();
+    }
+
+    function updateControls() { 
 
         if (keysObj["ArrowRight"]) {
             marioObj.x += 5;
@@ -44,23 +50,43 @@
             marioObj.x -= 5;
         } 
         if (keysObj["Space"]) {   
-            if (marioObj.y > 20)              
-                marioObj.y -= 10;
-            if (marioObj.y < marioObj.constantFloor )  
+            if (marioObj.y == marioObj.constantFloor ) { 
+                marioObj.jumpStart = true;            
+            }
+            if (marioObj.y < marioObj.constantFloor ) { 
                 marioObj.onGround = false;
-        } 
+            }
+        }
+    }
+
+    function marioPhysics() {
+    
+        if (marioObj.jumpStart == true && keysObj["Space"] == true) {   //jump
+            marioObj.y -= 15;
+            if (marioObj.y <= 30) {
+                marioObj.jumpStart = false;
+            }
+        } else if (marioObj.onGround == false && marioObj.y < 200) {    //falling
+            marioObj.y += 10;          
+        } else if (marioObj.y >=200) {         // set mario on floor when falling
+            marioObj.y = marioObj.constantFloor;
+            marioObj.onGround = true; 
+        }         
+    }
+
+    function mainGameLoop() {
         draw();
+        updateControls();
+        marioPhysics();
+        draw();
+ 
+        requestAnimationFrame(mainGameLoop);  
+
     }
 
-    function keyHandler(event) {
-        if (event.type == "keydown") {
-            keysObj[event.code] = true;
-        } else if (event.type == "keyup") {
-            delete keysObj[event.code];
-        } 
-    }
+    mainGameLoop();
 
-    setInterval(physicsGravity, 10);
+    //setInterval(mainGameLoop, 10);
 
 </script>
 </body>
