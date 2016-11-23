@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Friction simulation</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="500" style="border: 2px solid red">
+canvas not supported
+</canvas>
+<script type="text/javascript">
+	let canvas = document.getElementById("canvas");
+	let ctx = canvas.getContext("2d");
+	let gameObj = {
+		"x": 300,
+		"y": 300,
+	}
+	let contants = {
+		"speedX": 10,
+		"friction": 8
+	}
+	let eventKeyLeft = false;
+	let eventKeyRight = false;
+
+	window.addEventListener('keydown', update);
+	window.addEventListener('keyup', update);
+
+	function draw() {
+		ctx.beginPath();
+		ctx.clearRect(0,0,800,500);
+		ctx.fillStyle = "black";
+		ctx.fillRect(gameObj.x,gameObj.y,50,100);
+	}
+
+	function update(event) {
+		//get keys
+		eventKeyLeft = (event.code == "ArrowLeft");
+		eventKeyRight = (event.code == "ArrowRight");
+		//let keyup = (event.type == "keyup");
+		let counter = 0;
+		if (eventKeyLeft) {
+			gameObj.x -= contants.speedX;
+		}
+		if (eventKeyRight) {
+			gameObj.x += contants.speedX;
+		}	
+		friction();
+	}
+
+	//friction simmulation		
+	function friction() {
+		if (contants.speedX > contants.friction && eventKeyLeft) {  //left friction
+		gameObj.x += contants.friction;
+		} 
+		/*
+		if (contants.speedX > contants.friction && eventKeyRight){  //rigth friction
+			gameObj.x -= contants.friction;
+		} 
+		*/
+	}
+
+	function mainGameLoop() {
+		draw();
+		//update(); //friction();
+
+		requestAnimationFrame(mainGameLoop);
+	}
+
+	mainGameLoop();
+
+</script>
+</body>
+</html>
