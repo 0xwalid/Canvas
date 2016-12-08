@@ -13,6 +13,7 @@ let marioObj = {
     y:448,
     translateX: 0,
     translateY: 0,
+    scaleRight: 1,
     jumpStart: false,
     onGround: true,
     constantFloor: 448
@@ -22,13 +23,10 @@ let keysObj = {};
 let audio = new Audio("Music/marioMusic.mp3");
 audio.volume = 0.03;
 
-//For Jump 
-
-
 //Loading
-let loadingCounter = 0
+let loadingCounter = 0;
 function loading() { 
-    if (loadingCounter < 1) {
+    if (loadingCounter < 5) {
         draw();
         ctx.font = "55px serif";
         ctx.fillStyle = "white";
@@ -36,11 +34,9 @@ function loading() {
         ctx.font ="35px serof";
         ctx.fillText("Use ArrowRight, ArrowLeft and Space",80,300);  
         loadingCounter++;
-        audio.play();
     }
 }
 setInterval(loading,200);
- 
 
 window.addEventListener("keydown", eventHandler);
 window.addEventListener("keyup", eventHandler);
@@ -51,7 +47,7 @@ function eventHandler(event) {
     }
     if (event.type == "keyup") {
         delete keysObj[event.code];
-        //isMove = false; 
+        isMove = false; 
     }
     updateContlos();
 }
@@ -60,20 +56,26 @@ function updateContlos() {
     if (keysObj["ArrowRight"] && marioObj.translateX < 2940) {         
         if (marioObj.x >= 580) {            
             marioObj.translateX += 10;
-            isMove = true;       
+            isMove = true;  
+            globalPosition += 10;      
         } else if (marioObj.x < 580) {
             marioObj.x += 10;
             isMove = true; 
-        }             
+            globalPosition += 10;
+        }  
+        marioObj.scaleRight = 1;           
     } 
     if (keysObj["ArrowLeft"]) {       
         if (marioObj.translateX >= 10) {
             marioObj.translateX -= 10;
             isMove = true;
+            globalPosition -= 10;
         } else if (marioObj.x >= 10){
              marioObj.x -= 10;
              isMove = true;
+             globalPosition -= 10;
         }
+        marioObj.scaleRight = -1; 
     } 
     //under construction 
     if (keysObj["Space"]) {   
@@ -84,7 +86,8 @@ function updateContlos() {
             marioObj.onGround = false;
         }
     }
-    mainGameLoop(); 
+    //mainGameLoop(); 
+    draw();
 }
 
 //Background
@@ -94,18 +97,28 @@ function drawBackground(x,y){
 }
 
 function drawMario(x,y) {
+    ctx.save();
+    ctx.translate(x,y);
+    ctx.scale(-1,1);
     ctx.drawImage(marioImg,0,0,34,34,x,y,(34*2),(34*2));  //mario 
+    ctx.restore();
 }
 
-function marioSteps(x,y) {
-    if (counterSteps == 0) {
-       counterSteps = 1;
-       ctx.drawImage(marioImg,0,0,34,34,x,y,(34*2),(34*2));
-    } else if (counterSteps == 1) {
-        counterSteps = 0;
-        ctx.drawImage(marioImg1,0,0,34,34,x,y,(34*2),(34*2));
+function marioStepsAndRotate(scaleRight,x,y) {
+    ctx.save();
+    if (scaleRight == -1) {
+        x += 80;
     }
+    ctx.translate(x,y);
+    ctx.scale(scaleRight,1)
+    if (globalPosition % 20 == 0) {
+        ctx.drawImage(marioImg1,0,0,34,34,0,0,(34*2),(34*2));
+    } else {
+        ctx.drawImage(marioImg,0,0,34,34,0,0,(34*2),(34*2));
+    }
+    ctx.restore();
 }
+
 //under construction 
 function marioPhysics() {    
     if (marioObj.jumpStart == true && keysObj["Space"] == true) {   //jump
@@ -126,12 +139,8 @@ function draw() {
     ctx.clearRect(0,0,1200,600);
     ctx.translate(0,0);
     drawBackground(marioObj.translateX, marioObj.translateY);
-    
-    //drawMario(marioObj.x, marioObj.y);
-    
-    marioSteps(marioObj.x, marioObj.y);
+    marioStepsAndRotate(marioObj.scaleRight, marioObj.x, marioObj.y);
     ctx.closePath();
-
 }
 //Main Game Loop
 function mainGameLoop() {
@@ -139,9 +148,11 @@ function mainGameLoop() {
     audio.play();
     
 
-    //equestAnimationFrame(mainGameLoop);  
+    //requestAnimationFrame(mainGameLoop);  
 }
 mainGameLoop();
+
+//setInterval(mainGameLoop, 10);
 
 
 
