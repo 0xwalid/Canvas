@@ -20,26 +20,101 @@ let marioObj = {
 }
 let globalPosition = 200; 
 let keysObj = {};
+let moveSpeed = 2;
+let isLoading = true;
 let audio = new Audio("Music/marioMusic.mp3");
 audio.volume = 0.03;
 
-//Loading
-let loadingCounter = 0;
-function loading() { 
-    if (loadingCounter < 5) {
-        draw();
-        ctx.font = "55px serif";
-        ctx.fillStyle = "white";
-        ctx.fillText("You can Start to Play",80,250); 
-        ctx.font ="35px serof";
-        ctx.fillText("Use ArrowRight, ArrowLeft and Space",80,300);  
-        loadingCounter++;
-    }
-}
-setInterval(loading,200);
 
 window.addEventListener("keydown", eventHandler);
 window.addEventListener("keyup", eventHandler);
+
+
+//Start Loading Animation 
+/////////////////////////////////////////////////////////////////////
+
+
+let loadingSign = "Loading";
+let percentage = 0;
+let imgMarioLoading = new Image();
+imgMarioLoading.src = "Images/marioLoading.png";
+let progress = 0;
+
+    function fillLoadingRect() {
+        ctx.beginPath();
+        ctx.fillStyle = "blue";
+        ctx.fillRect(0, 0, 1200, 600);
+    }       
+    function drawLoadingPic() {
+
+        ctx.drawImage(imgMarioLoading,0,0,600,606,850,150,400,400);
+    } 
+    function innerRect() {
+        //fill red color
+        ctx.fillStyle = 'red';
+        ctx.fillRect(206 , 556, 20 + progress * 15.7, 18);
+        //drawLoadingPic();
+
+        //draw Loading sign
+        ctx.fillStyle = 'white';    
+        ctx.textAlign = "left";
+        ctx.fillText(loadingSign, 200, 540);
+        if (progress % 20 == 0)
+            loadingSign += ".";
+        progress++;
+
+        //draw % value
+        percentage += 2;
+        if (percentage < 100  ) {
+          ctx.fillStyle = 'blue';
+          ctx.fillRect(350, 505, 100, 40);
+          ctx.fillStyle = 'white';
+          ctx.fillText(percentage + " %", 405, 540);
+          ctx.save();
+          ctx.font = "70px monospace";
+          ctx.fillText("Super Mario Game", 250,200);
+          ctx.font = "30px monospace";
+          ctx.fillStyle = "#FEE40D";
+          ctx.fillText("Edition Petyo Mitkov 2016", 370,250);
+          ctx.restore();
+        } else {
+          ctx.fillStyle = 'blue';
+          ctx.fillRect(350, 505, 100, 40);
+          ctx.fillStyle = 'white';
+          ctx.fillText("100%", 405, 540);
+          ctx.save();
+          ctx.font = "70px monospace";
+          ctx.fillText("Super Mario Game", 250,200);
+          ctx.font = "30px monospace";
+          ctx.fillStyle = "#FEE40D";
+          ctx.fillText("Edition Petyo Mitkov 2016", 370,250);
+          ctx.restore();
+        }
+        //end loop
+        if (progress == 50) {
+            isLoading = false; 
+            progress = 51;
+            clearInterval(timer);
+        }
+    }   
+    function drawAnimationLoading() {
+        if (isLoading) {
+            fillLoadingRect();
+            ctx.fillStyle = "black";    
+            ctx.fillRect(200, 550, 800, 30);
+            ctx.fillStyle = "white";
+            ctx.fillRect(205, 555, 791, 20);
+            ctx.fillStyle = 'red';      
+            ctx.font = "25px monospace";
+            drawLoadingPic();
+            innerRect();  
+        }      
+    }
+
+    
+/////////////////////////////////////////////////////////////////
+
+
 
 function eventHandler(event) {
     if (event.type == "keydown") {
@@ -49,31 +124,31 @@ function eventHandler(event) {
         delete keysObj[event.code];
         isMove = false; 
     }
-    updateContlos();
+    //updateContlos();
 }
 
 function updateContlos() {
     if (keysObj["ArrowRight"] && marioObj.translateX < 2940) {         
         if (marioObj.x >= 580) {            
-            marioObj.translateX += 10;
+            marioObj.translateX += moveSpeed;
             isMove = true;  
-            globalPosition += 10;      
+            globalPosition += moveSpeed;      
         } else if (marioObj.x < 580) {
-            marioObj.x += 10;
+            marioObj.x += moveSpeed;
             isMove = true; 
-            globalPosition += 10;
+            globalPosition += moveSpeed;
         }  
         marioObj.scaleRight = 1;           
     } 
     if (keysObj["ArrowLeft"]) {       
-        if (marioObj.translateX >= 10) {
-            marioObj.translateX -= 10;
+        if (marioObj.translateX >= moveSpeed) {
+            marioObj.translateX -= moveSpeed;
             isMove = true;
-            globalPosition -= 10;
-        } else if (marioObj.x >= 10){
-             marioObj.x -= 10;
+            globalPosition -= moveSpeed;
+        } else if (marioObj.x >= moveSpeed){
+             marioObj.x -= moveSpeed;
              isMove = true;
-             globalPosition -= 10;
+             globalPosition -= moveSpeed;
         }
         marioObj.scaleRight = -1; 
     } 
@@ -87,7 +162,7 @@ function updateContlos() {
         }
     }
     //mainGameLoop(); 
-    draw();
+    //draw();
 }
 
 //Background
@@ -107,11 +182,11 @@ function drawMario(x,y) {
 function marioStepsAndRotate(scaleRight,x,y) {
     ctx.save();
     if (scaleRight == -1) {
-        x += 80;
+        x += 70;
     }
     ctx.translate(x,y);
     ctx.scale(scaleRight,1)
-    if (globalPosition % 20 == 0) {
+    if (globalPosition % 4 == 0) {
         ctx.drawImage(marioImg1,0,0,34,34,0,0,(34*2),(34*2));
     } else {
         ctx.drawImage(marioImg,0,0,34,34,0,0,(34*2),(34*2));
@@ -142,17 +217,37 @@ function draw() {
     marioStepsAndRotate(marioObj.scaleRight, marioObj.x, marioObj.y);
     ctx.closePath();
 }
+
 //Main Game Loop
-function mainGameLoop() {
-    draw();
+let loadingCounter = 0;
+
+function mainGameLoop() {  
+    clearInterval(startLoading);
+    if (isLoading == false && loadingCounter < 1000) {
+        draw();
+        ctx.font = "55px serif";
+        ctx.fillStyle = "white";
+        ctx.fillText("You can Start to Play",80,250); 
+        ctx.font ="35px serof";
+        ctx.fillText("Use ArrowRight, ArrowLeft and Space",80,300);  
+        loadingCounter++;
+
+        if (globalPosition > 350)
+            loadingCounter = 1000;
+    } else {
+        draw();
+    }   
+    updateContlos();
     audio.play();
     
-
     //requestAnimationFrame(mainGameLoop);  
 }
-mainGameLoop();
+//mainGameLoop();
 
-//setInterval(mainGameLoop, 10);
+let startLoading = setInterval(drawAnimationLoading, 50);
+setTimeout(function() {setInterval(mainGameLoop, 10);}, 4000);
+
+
 
 
 
