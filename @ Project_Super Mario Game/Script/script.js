@@ -30,8 +30,12 @@ window.addEventListener("keydown", eventHandler);
 window.addEventListener("keyup", eventHandler);
 
 
+
+
 //Start Loading Animation 
 /////////////////////////////////////////////////////////////////////
+
+
 
 
 let loadingSign = "Loading";
@@ -122,20 +126,25 @@ function eventHandler(event) {
     }
     if (event.type == "keyup") {
         delete keysObj[event.code];
-        isMove = false; 
+        //isMove = false; 
     }
     //updateContlos();
 }
 
 function updateContlos() {
+    if (keysObj["ArrowRight"] || keysObj["ArrowLeft"]) {
+        isMove = true;
+    } else {
+        isMove = false;
+    }
+
+
     if (keysObj["ArrowRight"] && marioObj.translateX < 2940) {         
         if (marioObj.x >= 580) {            
-            marioObj.translateX += moveSpeed;
-            isMove = true;  
+            marioObj.translateX += moveSpeed; 
             globalPosition += moveSpeed;      
         } else if (marioObj.x < 580) {
             marioObj.x += moveSpeed;
-            isMove = true; 
             globalPosition += moveSpeed;
         }  
         marioObj.scaleRight = 1;           
@@ -143,15 +152,14 @@ function updateContlos() {
     if (keysObj["ArrowLeft"]) {       
         if (marioObj.translateX >= moveSpeed) {
             marioObj.translateX -= moveSpeed;
-            isMove = true;
             globalPosition -= moveSpeed;
         } else if (marioObj.x >= moveSpeed){
              marioObj.x -= moveSpeed;
-             isMove = true;
              globalPosition -= moveSpeed;
         }
         marioObj.scaleRight = -1; 
     } 
+
     //under construction 
     if (keysObj["Space"]) {   
         if (marioObj.y == marioObj.constantFloor ) { 
@@ -171,26 +179,18 @@ function drawBackground(x,y){
         ctx.fillRect(0,0,50,50);
 }
 
-function drawMario(x,y) {
-    ctx.save();
-    ctx.translate(x,y);
-    ctx.scale(-1,1);
-    ctx.drawImage(marioImg,0,0,34,34,x,y,(34*2),(34*2));  //mario 
-    ctx.restore();
-}
-
 function marioStepsAndRotate(scaleRight,x,y) {
     ctx.save();
     if (scaleRight == -1) {
-        x += 70;
+        x += 68;
     }
     ctx.translate(x,y);
     ctx.scale(scaleRight,1)
-    if (globalPosition % 4 == 0) {
+    if (globalPosition % 4 == 0 && isMove == true) {
         ctx.drawImage(marioImg1,0,0,34,34,0,0,(34*2),(34*2));
-    } else {
+    } else if (globalPosition % 2 == 0) {
         ctx.drawImage(marioImg,0,0,34,34,0,0,(34*2),(34*2));
-    }
+    }    
     ctx.restore();
 }
 
@@ -223,17 +223,18 @@ let loadingCounter = 0;
 
 function mainGameLoop() {  
     clearInterval(startLoading);
-    if (isLoading == false && loadingCounter < 1000) {
+    if (isLoading == false && loadingCounter < 2000) {
         draw();
-        ctx.font = "55px serif";
+        ctx.font = "45px monospace";
         ctx.fillStyle = "white";
         ctx.fillText("You can Start to Play",80,250); 
-        ctx.font ="35px serof";
-        ctx.fillText("Use ArrowRight, ArrowLeft and Space",80,300);  
+        ctx.font ="30px monospace";
+        ctx.fillText("Use Left, Right Arrow and Space.",80,300);  
         loadingCounter++;
 
-        if (globalPosition > 350)
-            loadingCounter = 1000;
+        if (globalPosition > 405) {
+            loadingCounter = 2000;
+        }
     } else {
         draw();
     }   
@@ -245,7 +246,7 @@ function mainGameLoop() {
 //mainGameLoop();
 
 let startLoading = setInterval(drawAnimationLoading, 50);
-setTimeout(function() {setInterval(mainGameLoop, 10);}, 4000);
+setTimeout(function() {setInterval(mainGameLoop, 10);}, 5000);
 
 
 
