@@ -145,10 +145,12 @@ function updateContlos() {
     } else {
         isMove = false;
     }
-
     if (globalPosition == 580) {
        staticPosition = 0;
     }
+    // !!! globalPX 
+    globalPx = (staticPosition - 600) * -1;
+
 
     if (keysObj["ArrowRight"] && marioObj.translateX < 2940) {         
         if (marioObj.x >= 580) {            
@@ -231,8 +233,6 @@ function marioPhysics() {
 // Bricks, Coins , Tubes
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 let cointMoveUp = 340; 
 let marioHit = false;
 let hitOnce = {
@@ -255,7 +255,7 @@ function targetBrickCoin(bricksX, bricksLength, setJumpLimit, name) {
         marioObj.jumpLimit = setJumpLimit;
         if (globalPx >=  bricksX && globalPx < bricksLength + bricksX) {
             //ctx.save();
-            if (marioObj.y >= 400 && marioObj.y < 410) {
+            if (marioObj.y >= 370 && marioObj.y < 373) {
                 marioHit = true; 
                 if (hitOnce[name] === false){
                     audioCoin.play();  
@@ -318,7 +318,7 @@ function bricksObjectes() {
         
     } else if (globalPx > 1021 && globalPx <= 1085) {
         targetBrickSimple(1001,80,370);
-    } else if (globalPx > 3269 && globalPx <= 3315) {                              // second brick part
+    } else if (globalPx > 3269 && globalPx <= 3315) {
         targetBrickSimple(3269, 80, 370);
     } else if (globalPx > 3315 && globalPx <= 3370 ) {
         targetBrickCoin(3315, 80, 370, "coin4");
@@ -357,6 +357,15 @@ function bricksObjectes() {
     drawCoin(7255 + 20, "coin8");
 
 
+    
+    
+
+
+    staticBehaviour2(staticPosition, 1200); 
+
+}
+
+function tubes() {
     //first Tube     
     if (globalPx > 1170 && globalPx < 1284) {
         if (globalPx > 1170 && globalPx <= 1177 && marioObj.y > 362) {
@@ -369,7 +378,6 @@ function bricksObjectes() {
         } else {
             marioObj.constantFloor = 448;
             marioObj.onGround = false; 
-            //marioObj.y += 5;
         }
         if (globalPx > 1258 && globalPx < 1284 && marioObj.y > 362) {
             marioObj.translateX += moveSpeed;
@@ -377,13 +385,113 @@ function bricksObjectes() {
             globalPosition += moveSpeed;
             marioObj.constantFloor = 448;
             marioObj.onGround = false; 
-
-        } 
-       
+        }        
     } 
- 
-    staticBehaviour2(staticPosition, 1200); 
-
+    //second Tube
+    if (globalPx > 1605 && globalPx < 1715) {
+        if (globalPx > 1605 && globalPx <= 1607 && marioObj.y > 321 ) {
+            marioObj.translateX -= moveSpeed;
+            staticPosition += 5.35;  
+            globalPosition -= moveSpeed;
+        }
+        if (globalPx > 1607 && globalPx <= 1710) {
+            marioObj.constantFloor = 321;
+        } else { 
+            marioObj.constantFloor = 448;
+            marioObj.onGround = false; 
+        }
+        if (globalPx > 1710 && globalPx <= 1715 && marioObj.y > 321) {
+            marioObj.translateX += moveSpeed;
+            staticPosition -= 5.35; 
+            globalPosition += moveSpeed;
+            marioObj.constantFloor = 448;
+            marioObj.onGround = false; 
+        }
+    }
+    //third Tube 
+    if (globalPx > 1945 && globalPx < 2060) {
+        if (globalPx > 1945 && globalPx <= 1950 && marioObj.y > 276) {
+            marioObj.translateX -= moveSpeed;
+            staticPosition += 5.35;  
+            globalPosition -= moveSpeed;
+        }
+        if (globalPx > 1950 && globalPx <= 2052) {
+            marioObj.constantFloor = 276;
+        } else {
+            marioObj.constantFloor = 448;
+            marioObj.onGround = false; 
+        }
+        if (globalPx > 2052 && globalPx <= 2060 && marioObj.y > 276) {
+            marioObj.translateX += moveSpeed;
+            staticPosition -= 5.35; 
+            globalPosition += moveSpeed;
+            marioObj.constantFloor = 448;
+            marioObj.onGround = false; 
+        }
+    }
+    //fourth Tube
+    if (globalPx > 2415 && globalPx < 2531) {
+        if (globalPx > 2415 && globalPx <= 2420 && marioObj.y > 276) {
+            marioObj.translateX -= moveSpeed;
+            staticPosition += 5.35;  
+            globalPosition -= moveSpeed;
+        }
+        if (globalPx > 2420 && globalPx <= 2525 ) {
+            marioObj.constantFloor = 276;
+        } else {
+            marioObj.constantFloor = 448;
+            marioObj.onGround = false;
+        }
+        if (globalPx > 2525 && globalPx <= 2531 && marioObj.y > 276) {
+            marioObj.translateX += moveSpeed;
+            staticPosition -= 5.35; 
+            globalPosition += moveSpeed;
+            marioObj.constantFloor = 448;
+            marioObj.onGround = false; 
+        }
+    }
+    //fifth Tube 
+    if (globalPx > 6950 && globalPx < 7068) {
+        if (globalPx > 6950 && globalPx <= 6955 && marioObj.y > 362) { 
+            marioObj.translateX -= moveSpeed;
+            staticPosition += 5.35;  
+            globalPosition -= moveSpeed;
+        }
+        if (globalPx > 6955 && globalPx <= 7060) {
+            marioObj.constantFloor = 362;
+        } else {
+            marioObj.constantFloor = 448;
+            marioObj.onGround = false;
+        }
+        if (globalPx > 7060 && globalPx <= 7068 && marioObj.y > 362) {
+            marioObj.translateX += moveSpeed;
+            staticPosition -= 5.35; 
+            globalPosition += moveSpeed;
+            marioObj.constantFloor = 448;
+            marioObj.onGround = false; 
+        }
+    }
+    //sixth Tube
+    if ( globalPx > 7635 && globalPx < 7750) {
+        if (globalPx > 7635 && globalPx <= 7640 && marioObj.y > 362) {
+            marioObj.translateX -= moveSpeed;
+            staticPosition += 5.35;  
+            globalPosition -= moveSpeed;
+        }
+        if (globalPx > 7640 && globalPx <= 7725) {
+            marioObj.constantFloor = 362;
+        } else {
+            marioObj.constantFloor = 448;
+            marioObj.onGround = false;
+        }
+        if (globalPx > 7725 && globalPx <= 7750 && marioObj.y > 362) {
+            marioObj.translateX += moveSpeed;
+            staticPosition -= 5.35; 
+            globalPosition += moveSpeed;
+            marioObj.constantFloor = 448 - 43;
+            marioObj.onGround = false;
+        }
+    }
 }
 
 
@@ -433,17 +541,19 @@ function draw() {
     staticBehaviour(staticPosition,1380, enemyMouse);
     marioStepsAndRotate();
     marioPhysics();
-    // !!! globalPX 
-    globalPx = (staticPosition - 600) * -1;
+
+    bricksObjectes();
+    tubes();
+
 
     //counters 
     ctx.fillText("globalPosition:" + globalPosition, 70,50);
     ctx.fillText("MarioObj.x : " + marioObj.x, 70, 80);
     //ctx.fillText("MarioObj.translateX : " + marioObj.x, 70, 110);
     ctx.fillText("staticPosition: " + staticPosition, 70,120 );
-    ctx.fillText("globalPx : " + globalPx, 70, 150);
+    ctx.fillText("globalPx : " + globalPx, 70, 320);
 
-    bricksObjectes();
+   
 
     //600px line
     ctx.moveTo(625,0);
