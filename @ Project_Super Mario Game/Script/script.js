@@ -293,7 +293,9 @@ function targetBrickCoinForSecondFloor(bricksX, bricksLength, name) {
                 hitOnce[name] = true;              
             }        
         }
-    } else {
+    } else if (marioObj.y < 220 && marioObj.y < 210) {
+        marioObj.jumpLimit = 200;
+        increaseJumpLimit = 0;
         //marioObj.jumpLimit = 180;
         //cointMoveUp = 340;
         cointMoveUp = 340;
@@ -302,11 +304,11 @@ function targetBrickCoinForSecondFloor(bricksX, bricksLength, name) {
     //left, right and top 
 }
 function targetBrickSimple(bricksX, bricksLength, setJumpLimit) {
-    if (globalPx > bricksX && globalPx < bricksLength + bricksX ) {
+    if (globalPx > bricksX && globalPx < bricksLength + bricksX) {
         marioObj.jumpLimit = setJumpLimit + increaseJumpLimit;
         
     } else {
-        //marioObj.jumpLimit = 220;
+        //marioObj.jumpLimit = 200;
         //cointMoveUp = 340;
         marioHit = false;
     }
@@ -316,7 +318,7 @@ function targetBrickSimpleForSecondFloor(bricksX, bricksLength) {
         marioObj.jumpLimit = 220 + increaseJumpLimit;
         
     } else if (marioObj.y < 220 && marioObj.y < 210){
-        marioObj.jumpLimit = 210;
+        marioObj.jumpLimit = 200;
         //cointMoveUp = 340;
         marioHit = false;
     }
@@ -360,9 +362,13 @@ function brickLeftPhysicsFloor1(from, to) {
 }
 function brickTopPhysicsFloor1(from, to) {
     if (globalPx > from && globalPx <= to && 
-        marioObj.y <= 276 && marioObj.y > 220) {                
-        marioObj.constantFloor = 276; 
-        increaseJumpLimit = -325;
+        marioObj.y <= 276 && marioObj.y > 220) {             
+         
+        if (marioObj.y === 276) {
+            increaseJumpLimit = -325;
+        }
+        marioObj.constantFloor = 276;
+        
     }
 }
 function brickRightPhysicsFloor1(from, to) {
@@ -380,166 +386,67 @@ function firstFloorBricks() {
     //brick physics 
     if (globalPx > 650 && globalPx < 735) {          //brickCoin1 
         targetBrickCoin(660, 65, 370, "coin1");
-
-        if (globalPx > 650 && globalPx <= 660 && 
-            marioObj.y >= 276 && marioObj.y < 400) {
-            marioObj.translateX -= moveSpeed;
-            staticPosition += 5.35;  
-            globalPosition -= moveSpeed;
-            marioObj.constantFloor = 448;
-            marioObj.onGround = false;             
-        } 
-        if (globalPx > 660 && globalPx <= 728 &&  
-            marioObj.y <= 276 && marioObj.y > 265) { //&& marioObj.y > 270
-            marioObj.constantFloor = 276;
-            increaseJumpLimit = -325;       
-        }
-        if (globalPx > 728 && globalPx < 735 &&  
-            marioObj.y >= 276 && marioObj.y < 400) {
-            marioObj.translateX += moveSpeed;
-            staticPosition -= 5.35;   
-            globalPosition += moveSpeed;
-            marioObj.constantFloor = 448;
-            marioObj.onGround = false;            
-        }
-    }else if (globalPx > 825 && globalPx < 1076) {   //assembly of 4 bricks coin2 & coin3
+        brickLeftPhysicsFloor1(650, 660);
+        brickTopPhysicsFloor1(660, 728);
+        brickRightPhysicsFloor1(728, 735);  
+    }else if (globalPx > 825 && globalPx < 1076) {   //assembly of 4 bricks coin2 & coin3 
         targetBrickSimple(832,230,370);
         if (globalPx > 878 && globalPx < 920)
             targetBrickCoin(875, 60, 370, "coin2");
         else if (globalPx > 963 && globalPx < 1017)
-            targetBrickCoin(963, 60, 370, "coin3");             
-
-        if (globalPx > 825 && globalPx <= 832 && 
-            marioObj.y >= 276 && marioObj.y < 400) {
-            marioObj.translateX -= moveSpeed;
-            staticPosition += 5.35;  
-            globalPosition -= moveSpeed;
-            marioObj.constantFloor = 448;
-            marioObj.onGround = false;           
-        }
-        if (globalPx > 832 && globalPx <= 1060 && 
-            marioObj.y <= 276 && marioObj.y > 220) {                
-            marioObj.constantFloor = 276; 
-            increaseJumpLimit = -325;
-        }
-        if (globalPx > 1060 && globalPx < 1076 && 
-            marioObj.y >= 276 && marioObj.y < 400) {
-            marioObj.translateX += moveSpeed;
-            staticPosition -= 5.35; 
-            globalPosition += moveSpeed;
-            marioObj.constantFloor = 448;
-            marioObj.onGround = false; 
-        }  
-    } else if (globalPx > 3269 && globalPx < 3430) { //assembly of 3 bricks coin4
+            targetBrickCoin(963, 60, 370, "coin3");
+        brickLeftPhysicsFloor1(825, 832);
+        brickTopPhysicsFloor1(832, 1060);
+        brickRightPhysicsFloor1(1060, 1076);
+    } else if (globalPx > 3269 && globalPx < 3430) { //assembly of 3 bricks coin4 
         targetBrickSimple(3269, 161, 370);
         if (globalPx > 3317 && globalPx < 3365)
             targetBrickCoin(3317,60,370, "coin4"); 
-
-        if (globalPx > 3269 && globalPx <= 3275 && 
-            marioObj.y >= 276 && marioObj.y < 400) {
-            marioObj.translateX -= moveSpeed;
-            staticPosition += 5.35;  
-            globalPosition -= moveSpeed;
-            marioObj.constantFloor = 448;
-            marioObj.onGround = false;           
-        }
-        if (globalPx > 3275 && globalPx <= 3410 && 
-            marioObj.y <= 276 && marioObj.y > 220) {                
-            marioObj.constantFloor = 276; 
-            increaseJumpLimit = -325;
-        }
-        if (globalPx > 3410 && globalPx < 3430 && 
-            marioObj.y >= 276 && marioObj.y < 400) {
-            marioObj.translateX += moveSpeed;
-            staticPosition -= 5.35; 
-            globalPosition += moveSpeed;
-            marioObj.constantFloor = 448;
-            marioObj.onGround = false;
-            if (marioObj.y === 276) 
-            increaseJumpLimit = -325;
-        }       
-    } else if (globalPx > 3995 && globalPx < 4066) { //One brick under coinBrick
+        brickLeftPhysicsFloor1(3269, 3275);
+        brickTopPhysicsFloor1(3275, 3420);
+        brickRightPhysicsFloor1(3420, 3430);
+    } else if (globalPx > 3990 && globalPx < 4066) { //One brick under coinBrick
         targetBrickSimple(4000, 66, 370);
-
-         if (globalPx > 3995 && globalPx <= 4000 && 
-            marioObj.y >= 276 && marioObj.y < 400) {
-            marioObj.translateX -= moveSpeed;
-            staticPosition += 5.35;  
-            globalPosition -= moveSpeed;
-            marioObj.constantFloor = 448;
-            marioObj.onGround = false;           
-        }
-        if (globalPx > 4000 && globalPx <= 4060 && 
-            marioObj.y <= 276 && marioObj.y > 220) {                
-            marioObj.constantFloor = 276; 
-            increaseJumpLimit = -325;
-        }
-        if (globalPx > 4060 && globalPx < 4066 && 
-            marioObj.y >= 276 && marioObj.y < 400) {
-            marioObj.translateX += moveSpeed;
-            staticPosition -= 5.35; 
-            globalPosition += moveSpeed;
-            marioObj.constantFloor = 448;
-            marioObj.onGround = false;
-        }
+        brickLeftPhysicsFloor1(3990, 3996);
+        brickTopPhysicsFloor1(3996, 4060);
+        brickRightPhysicsFloor1(4060, 4066);
     } else if (globalPx > 4250 && globalPx < 4330) { // One brick bifore 4 coin bricks
         targetBrickSimple(4250, 60, 370);
-
-        if (globalPx > 4250 && globalPx <= 4255 && 
-            marioObj.y >= 276 && marioObj.y < 400) {
-            marioObj.translateX -= moveSpeed;
-            staticPosition += 5.35;  
-            globalPosition -= moveSpeed;
-            marioObj.constantFloor = 448;
-            marioObj.onGround = false;           
-        }
-        if (globalPx > 4255 && globalPx <= 4322 && 
-            marioObj.y <= 276 && marioObj.y > 220) {                
-            marioObj.constantFloor = 276; 
-            increaseJumpLimit = -325;
-        }
-        if (globalPx > 4322 && globalPx < 4330 && 
-            marioObj.y >= 276 && marioObj.y < 400) {
-            marioObj.translateX += moveSpeed;
-            staticPosition -= 5.35; 
-            globalPosition += moveSpeed;
-            marioObj.constantFloor = 448;
-            marioObj.onGround = false;
-        }
+        brickLeftPhysicsFloor1(4250, 4255);
+        brickTopPhysicsFloor1(4255, 4322);
+        brickRightPhysicsFloor1(4322, 4330);
     } else if (globalPx > 4505 && globalPx < 4585) { //coin5 - first from series of 3 coin bricks
-        targetBrickCoin(4505, 60, 370, "coin5");
-
-        if (globalPx > 4505 && globalPx <= 4515 && 
-            marioObj.y >= 276 && marioObj.y < 400) {
-            marioObj.translateX -= moveSpeed;
-            staticPosition += 5.35;  
-            globalPosition -= moveSpeed;
-            marioObj.constantFloor = 448;
-            marioObj.onGround = false;           
-        }
-        if (globalPx > 4515 && globalPx <= 4578 && 
-            marioObj.y <= 276 && marioObj.y > 220) {                
-            marioObj.constantFloor = 276; 
-            increaseJumpLimit = -325;
-        }
-        if (globalPx > 4578 && globalPx < 4585 && 
-            marioObj.y >= 276 && marioObj.y < 400) {
-            marioObj.translateX += moveSpeed;
-            staticPosition -= 5.35; 
-            globalPosition += moveSpeed;
-            marioObj.constantFloor = 448;
-            marioObj.onGround = false;
-        }
+        targetBrickCoin(4505, 80, 370, "coin5");
+        brickLeftPhysicsFloor1(4505, 4515);
+        brickTopPhysicsFloor1(4506, 4578);
+        brickRightPhysicsFloor1(4578, 4585);
     } else if (globalPx > 4635 && globalPx < 4710) { //coin6 - second from series of 3 bricks
-        targetBrickCoin(4635, 60, 370, "coin6");
+        targetBrickCoin(4635, 80, 370, "coin6");
         brickLeftPhysicsFloor1(4635, 4642);
         brickTopPhysicsFloor1(4642, 4700);
         brickRightPhysicsFloor1(4700, 4710);
     } else if (globalPx > 4760 && globalPx < 4840) { //coin7- third from series of 3 bricks
-        targetBrickCoin(4760, 60, 370, "coin7");
+        targetBrickCoin(4760, 80, 370, "coin7");
         brickLeftPhysicsFloor1(4760, 4770);
         brickTopPhysicsFloor1(4770, 4830);
         brickRightPhysicsFloor1(4830, 4840);
+    } else if (globalPx > 5020 && globalPx < 5093) { //one simple brick
+        targetBrickSimple(5020, 60, 370);
+        brickLeftPhysicsFloor1(5020, 5026);
+        brickTopPhysicsFloor1(5026, 5085);
+        brickRightPhysicsFloor1(5085, 5093);
+    } else if (globalPx > 5490 && globalPx < 5612) { // one simple brick
+        targetBrickSimple(5490, 121, 370);
+        brickLeftPhysicsFloor1(5490, 5496);
+        brickTopPhysicsFloor1(5496, 5600);
+        brickRightPhysicsFloor1(5600, 5612);
+    } else if (globalPx > 7164 && globalPx < 7362) { // coin8 assembly of 4 bricks
+        targetBrickSimple(7164, 198, 370);
+        if (globalPx > 7255 && globalPx < 7308)
+            targetBrickCoin(7250, 80, 370, "coin8");
+        brickLeftPhysicsFloor1(7164, 7170);
+        brickTopPhysicsFloor1(7170, 7355);
+        brickRightPhysicsFloor1(7355, 7362);
     } else {
         marioObj.constantFloor = 448;
         increaseJumpLimit = 0;
@@ -619,7 +526,7 @@ function secondFloorBricks() {
         } else if (globalPx > 3870 && globalPx <= 4060 && 
             marioObj.y <= 110 && marioObj.y > -100) {
             marioObj.constantFloor = 105;
-            //increaseJumpLimit = -325;            
+            //increaseJumpLimit = -325;
             marioObj.jumpLimit = -100; 
         } else if (globalPx > 4060 && globalPx < 4066 && 
             marioObj.y >= 105 && marioObj.y < 210) {
@@ -631,6 +538,9 @@ function secondFloorBricks() {
         } else {
             marioObj.constantFloor = 448;
             increaseJumpLimit = 0;
+            if (marioObj.y < 110) {
+               marioObj.jumpLimit = -100;
+           }   
         }
     }
 }
