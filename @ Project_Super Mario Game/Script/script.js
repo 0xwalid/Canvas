@@ -338,7 +338,6 @@ function drawCoin(staticPlace, name) {
         ctx.restore();        
     }            
 } 
-
 function drawCoinForSecondFloor(staticPlace, y, name) {
     if (hitOnce[name] === true) {
         ctx.save();
@@ -348,8 +347,9 @@ function drawCoinForSecondFloor(staticPlace, y, name) {
         cointMoveUp -= 1;
         ctx.restore();        
     }        
-}  
-//////////// beta functino 
+} 
+
+//Brick physics elements onli for first floor
 function brickLeftPhysicsFloor1(from, to) {
     if (globalPx > from && globalPx <= to && 
         marioObj.y >= 276 && marioObj.y < 400) {
@@ -382,6 +382,7 @@ function brickRightPhysicsFloor1(from, to) {
     }
 }
 
+//Bricks position and draw
 function firstFloorBricks() {
     //brick physics 
     if (globalPx > 650 && globalPx < 735) {          //brickCoin1 
@@ -452,7 +453,6 @@ function firstFloorBricks() {
         increaseJumpLimit = 0;
     }
 }
-
 function secondFloorBricks() {
     //Second Floor !!!
     if (globalPx > 908 && globalPx < 990 && marioObj.y < 250) {  //Brick 1 on Second Floor - coinSecFloor1
@@ -515,7 +515,6 @@ function secondFloorBricks() {
         targetBrickSimpleForSecondFloor(3865, 201);
         if (globalPx > 4000 && globalPx < 4066) 
             targetBrickCoinForSecondFloor(4000, 66, "coinSecFloor2");
-
         if (globalPx > 3865 && globalPx <= 3870 && 
             marioObj.y >= 105 && marioObj.y < 210) {
             marioObj.translateX -= moveSpeed;
@@ -542,9 +541,101 @@ function secondFloorBricks() {
                marioObj.jumpLimit = -100;
            }   
         }
+    } 
+    if (globalPx > 4635 && globalPx < 4715 && marioObj.y < 250) { // Brick with coinSecFloor3
+        targetBrickCoinForSecondFloor(4639, 80, "coinSecFloor3");
+        if (globalPx > 4635 && globalPx <= 4642 && 
+            marioObj.y >= 105 && marioObj.y < 210) {
+            marioObj.translateX -= moveSpeed;
+            staticPosition += 5.35;  
+            globalPosition -= moveSpeed;
+            marioObj.constantFloor = 448;
+            marioObj.onGround = false;             
+        } else if (globalPx > 4642 && globalPx <= 4708 && 
+            marioObj.y <= 110 && marioObj.y > -100) {
+            marioObj.constantFloor = 105;
+            //increaseJumpLimit = -325;
+            marioObj.jumpLimit = -100; 
+        } else if (globalPx > 4708 && globalPx < 47015 && 
+            marioObj.y >= 105 && marioObj.y < 210) {
+            marioObj.translateX += moveSpeed;
+            staticPosition -= 5.35; 
+            globalPosition += moveSpeed;
+            marioObj.constantFloor = 448;
+            marioObj.onGround = false; 
+        } else {
+            marioObj.constantFloor = 448;
+            increaseJumpLimit = 0;
+            if (marioObj.y < 110) {
+               marioObj.jumpLimit = -100;
+           }   
+        }
+    } 
+    if (globalPx > 5148 && globalPx < 5313 && marioObj.y < 250)  { //Assembly simple bricks
+        targetBrickSimpleForSecondFloor(5148, 165);
+
+        if (globalPx > 5148 && globalPx <= 5155 && 
+            marioObj.y >= 105 && marioObj.y < 210) {
+            marioObj.translateX -= moveSpeed;
+            staticPosition += 5.35;  
+            globalPosition -= moveSpeed;
+            marioObj.constantFloor = 448;
+            marioObj.onGround = false;             
+        } else if (globalPx > 5155 && globalPx <= 5303 && 
+            marioObj.y <= 110 && marioObj.y > -100) {
+            marioObj.constantFloor = 105;
+            //increaseJumpLimit = -325;
+            marioObj.jumpLimit = -100; 
+        } else if (globalPx > 5303 && globalPx < 5313 && 
+            marioObj.y >= 105 && marioObj.y < 210) {
+            marioObj.translateX += moveSpeed;
+            staticPosition -= 5.35; 
+            globalPosition += moveSpeed;
+            marioObj.constantFloor = 448;
+            marioObj.onGround = false; 
+        } else {
+            marioObj.constantFloor = 448;
+            increaseJumpLimit = 0;
+            if (marioObj.y < 110) {
+               marioObj.jumpLimit = -100;
+           }   
+        }
+    } 
+    if (globalPx > 5448 && globalPx < 5650 && marioObj.y < 250) { //Assembly of 4, coinSecFlooor4 & 5
+        targetBrickSimpleForSecondFloor(5448, 202);
+        if (globalPx > 5495 && globalPx <= 5540)
+            targetBrickCoinForSecondFloor(5495, 80, "coinSecFloor4");
+        if (globalPx > 5540 && globalPx < 5596);
+            targetBrickCoinForSecondFloor(5540, 80, "coinSecFloor5");
+
+        if (globalPx > 5448 && globalPx <= 5455 && 
+            marioObj.y >= 105 && marioObj.y < 210) {
+            marioObj.translateX -= moveSpeed;
+            staticPosition += 5.35;  
+            globalPosition -= moveSpeed;
+            marioObj.constantFloor = 448;
+            marioObj.onGround = false;             
+        } else if (globalPx > 5455 && globalPx <= 5640 && 
+            marioObj.y <= 110 && marioObj.y > -100) {
+            marioObj.constantFloor = 105;
+            //increaseJumpLimit = -325;
+            marioObj.jumpLimit = -100; 
+        } else if (globalPx > 5640 && globalPx < 5650 && 
+            marioObj.y >= 105 && marioObj.y < 210) {
+            marioObj.translateX += moveSpeed;
+            staticPosition -= 5.35; 
+            globalPosition += moveSpeed;
+            marioObj.constantFloor = 448;
+            marioObj.onGround = false; 
+        } else {
+            marioObj.constantFloor = 448;
+            increaseJumpLimit = 0;
+            if (marioObj.y < 110) {
+               marioObj.jumpLimit = -100;
+           }   
+        }
     }
 }
-
 function drawBricksPhysics() { 
     drawCoin(685, "coin1");
     drawCoin(898, "coin2");
@@ -556,15 +647,16 @@ function drawBricksPhysics() {
     drawCoin(7255 + 20, "coin8");
     drawCoinForSecondFloor(943, 182, "coinSecFloor1");
     drawCoinForSecondFloor(4025, 180, "coinSecFloor2");
-    
+    drawCoinForSecondFloor(4665, 180, "coinSecFloor3");
+    drawCoinForSecondFloor(5495 + 30, 180, "coinSecFloor4");
+    drawCoinForSecondFloor(5540 + 25, 180, "coinSecFloor5");
+
     firstFloorBricks();
     secondFloorBricks();
 
-
-    staticBehaviour2(staticPosition, 1200); 
 }
 
-
+//Tubes
 function tubes() {
     //first Tube     
     if (globalPx > 1170 && globalPx < 1284) {
@@ -575,7 +667,9 @@ function tubes() {
         } 
         if (globalPx > 1177 && globalPx <= 1258) {
             marioObj.constantFloor = 362;
-            marioObj.jumpLimit = 160;
+            if (marioObj.y === 362) {
+                marioObj.jumpLimit = 160;
+            }
         } else {
             marioObj.constantFloor = 448;
             marioObj.onGround = false;
@@ -597,7 +691,9 @@ function tubes() {
         }
         if (globalPx > 1607 && globalPx <= 1710) {
             marioObj.constantFloor = 321;
-            marioObj.jumpLimit = 120;
+            if (marioObj.y === 321) {
+                marioObj.jumpLimit = 120;
+            }
         } else { 
             marioObj.constantFloor = 448;
             marioObj.onGround = false;             
@@ -619,7 +715,9 @@ function tubes() {
         }
         if (globalPx > 1950 && globalPx <= 2052) {
             marioObj.constantFloor = 276;
-            marioObj.jumpLimit = 80;
+            if (marioObj.y === 276) {
+                marioObj.jumpLimit = 80;
+            }
         } else {
             marioObj.constantFloor = 448;
             marioObj.onGround = false;
@@ -641,7 +739,9 @@ function tubes() {
         }
         if (globalPx > 2420 && globalPx <= 2525 ) {
             marioObj.constantFloor = 276;
-            marioObj.jumpLimit = 80;
+            if (marioObj.y === 276) {
+                marioObj.jumpLimit = 80;
+            }
         } else {
             marioObj.constantFloor = 448;
             marioObj.onGround = false;
@@ -663,6 +763,9 @@ function tubes() {
         }
         if (globalPx > 6955 && globalPx <= 7060) {
             marioObj.constantFloor = 362;
+            if (marioObj.y === 362) {
+                marioObj.jumpLimit = 160;
+            }
         } else {
             marioObj.constantFloor = 448;
             marioObj.onGround = false;
@@ -684,6 +787,9 @@ function tubes() {
         }
         if (globalPx > 7640 && globalPx <= 7725) {
             marioObj.constantFloor = 362;
+            if (marioObj.y === 362) {
+                marioObj.jumpLimit = 160;
+            }
         } else {
             marioObj.constantFloor = 448;
             marioObj.onGround = false;
@@ -698,6 +804,37 @@ function tubes() {
     }
 }
 
+//Pyramids
+function pyramidsPhysics() {
+    if (globalPx > 5705 && globalPx < 5907) { //Pyramid One 
+        if (globalPx > 5702 && globalPx <= 5710 && marioObj.y > 350) { //Steps 1
+            marioObj.translateX -= moveSpeed;
+            staticPosition += 5.35;  
+            globalPosition -= moveSpeed;
+            marioObj.constantFloor = 448;
+            marioObj.onGround = false;  
+        } else if (globalPx > 5710 && globalPx <= 5752) {
+            if (marioObj.y === 405) {
+                //increaseJumpLimit = -325;
+                marioObj.jumpLimit = 200;
+            }
+            marioObj.constantFloor = 405;
+        } else if (globalPx > 5752 && globalPx <= 5757 && marioObj.y > 350) { //Step 2
+            marioObj.translateX -= moveSpeed;
+            staticPosition += 5.35;  
+            globalPosition -= moveSpeed;
+            marioObj.constantFloor = 405;
+            marioObj.onGround = false; 
+        } else if (globalPx > 5757 && globalPx <= 5794) {
+            if (marioObj.y === 360) {
+                //increaseJumpLimit = -325;
+                marioObj.jumpLimit = 180;
+            }
+            marioObj.constantFloor = 360;
+        }  
+
+    }
+}
 
 //try static position !
 let staticPosition = 0;
@@ -724,8 +861,6 @@ let globalPx;
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 //ENEMIES
 
@@ -733,22 +868,23 @@ let enemyMouse = new Image();
 enemyMouse.src = "Images/enemy.png";
 
 ////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////
+
 
 function draw() { 
     ctx.beginPath();
     ctx.clearRect(0,0,1200,600);
     //ctx.translate(0,0);
     drawBackground(marioObj.translateX, marioObj.translateY);
-    staticBehaviour(staticPosition,1380, enemyMouse);
+    //staticBehaviour(staticPosition,1380, enemyMouse);
     marioStepsAndRotate();
     marioPhysics();
 
     drawBricksPhysics();
     tubes();
+    pyramidsPhysics();
 
 
+    /*
     //counters 
     ctx.fillText("globalPosition:" + globalPosition, 70,50);
     ctx.fillText("MarioObj.x : " + marioObj.x, 70, 80);
@@ -757,7 +893,6 @@ function draw() {
     ctx.fillText("staticPosition: " + staticPosition, 70,150 );
     ctx.fillText("globalPx : " + globalPx, 800, 20);
 
-   
 
     //600px line
     ctx.moveTo(625,0);
@@ -793,10 +928,7 @@ function draw() {
     ctx.fillText("MarioObj.jumpLimit : " + marioObj.jumpLimit , 30, 500);
     ctx.fillText("increaseJumpLimit : " + increaseJumpLimit , 30, 530);
      ctx.fillText("marioObj.constantFloor : " + marioObj.constantFloor , 30, 560);
-
-
-    
-    
+    */   
 
     ctx.closePath();
 }
@@ -810,13 +942,8 @@ function mainGameLoop() {
         controlsInstructions();
         clearInterval(startLoading);
     }  
-    //audio.volume = 0.3;
-    audio.play(); //for mario music    
-
-
-    //requestAnimationFrame(mainGameLoop);  
+    audio.play(); //for mario music        
 }
-//mainGameLoop();
 
 var startLoading = setInterval(drawAnimationLoading, 50);
 setTimeout(function() {setInterval(mainGameLoop, 10);}, 5000);
