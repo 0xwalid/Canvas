@@ -806,33 +806,97 @@ function tubes() {
 
 //Pyramids
 function pyramidsPhysics() {
-    if (globalPx > 5705 && globalPx < 5907) { //Pyramid One 
-        if (globalPx > 5702 && globalPx <= 5710 && marioObj.y > 350) { //Steps 1
-            marioObj.translateX -= moveSpeed;
-            staticPosition += 5.35;  
-            globalPosition -= moveSpeed;
-            marioObj.constantFloor = 448;
-            marioObj.onGround = false;  
+    if (globalPx > 5705 && globalPx < 5917) { //Pyramid One 
+        if (globalPx > 5702 && globalPx <= 5710 && marioObj.y > 350) { //Step 1
+            stopOnTheLeftStep(448);
         } else if (globalPx > 5710 && globalPx <= 5752) {
             if (marioObj.y === 405) {
-                //increaseJumpLimit = -325;
                 marioObj.jumpLimit = 200;
             }
             marioObj.constantFloor = 405;
         } else if (globalPx > 5752 && globalPx <= 5757 && marioObj.y > 350) { //Step 2
-            marioObj.translateX -= moveSpeed;
-            staticPosition += 5.35;  
-            globalPosition -= moveSpeed;
-            marioObj.constantFloor = 405;
-            marioObj.onGround = false; 
+            stopOnTheLeftStep(405);
         } else if (globalPx > 5757 && globalPx <= 5794) {
             if (marioObj.y === 360) {
-                //increaseJumpLimit = -325;
                 marioObj.jumpLimit = 180;
             }
             marioObj.constantFloor = 360;
-        }  
+        } else if (globalPx > 5794 && globalPx <= 5800 && marioObj.y > 300) { //Step 3
+        	stopOnTheLeftStep(360);
+        } else if (globalPx > 5800 && globalPx <= 5834) {
+        	if (marioObj.y === 320) {
+                marioObj.jumpLimit = 160;
+            }
+            marioObj.constantFloor = 320;
+        } else if (globalPx > 5834 && globalPx < 5840 && marioObj.y > 270) { //Step 4
+            stopOnTheLeftStep(320);
+        } else if (globalPx > 5840 && globalPx < 5907) {
+            if (marioObj.y === 276) {
+                marioObj.jumpLimit = 140;
+            }
+            marioObj.constantFloor = 276;
+        } else if (globalPx > 5907 && globalPx < 5917) { //End of first pyramidn
+            if (marioObj.y > 276) {
+                marioObj.translateX += moveSpeed;
+                staticPosition -= 5.35; 
+                globalPosition += moveSpeed;
+            }            
+            marioObj.constantFloor = 448;
+            marioObj.onGround = false; 
+        }
+    } else if (globalPx > 5965 && globalPx < 6168) { //Pyramid Two
+        if (globalPx > 5965 && globalPx <= 5972 && marioObj.y > 276) {// Start wall 
+            marioObj.translateX -= moveSpeed;
+            staticPosition += 5.35;  
+            globalPosition -= moveSpeed;
+            marioObj.constantFloor = 448;
+            marioObj.onGround = false; 
+        } else if (globalPx > 5972 && globalPx <= 6028) { //Step 1 top part (the biggest)
+            if (marioObj.y === 276) {
+                marioObj.jumpLimit = 140;
+            }
+            marioObj.constantFloor = 276;
+        } else if (globalPx > 6028 && globalPx <= 6034) { 
+            stopOnTheRightStep(276, 320);
+        } else if (globalPx > 6028 && globalPx < 6073) { //Step 2 top part
+            if (marioObj.y === 320) {
+                marioObj.jumpLimit = 160;
+            }
+            marioObj.constantFloor = 320;
+        } else if (globalPx > 6073 && globalPx <= 6079) {       
+            stopOnTheRightStep(320, 360);
+        } else if (globalPx > 6079 && globalPx <= 6121) { //Step 3 top part
+            if (marioObj.y === 360) {
+                marioObj.jumpLimit = 180;
+            }
+            marioObj.constantFloor = 360;
+        } else if (globalPx > 6121 && globalPx <= 6126) {
+            stopOnTheRightStep(360, 405);
+        } else if (globalPx > 6126 && globalPx <= 6160) { //Step 4 top part
+            if (marioObj.y === 405) {
+                marioObj.jumpLimit = 180;
+            }
+            marioObj.constantFloor = 405;
+        } else if (globalPx > 6160 && globalPx <= 6168) {
+            stopOnTheRightStep(405, 448);
+        }
+    }
 
+    function stopOnTheLeftStep(floorLevel) {
+        marioObj.translateX -= moveSpeed;
+        staticPosition += 5.35;  
+        globalPosition -= moveSpeed;
+        marioObj.constantFloor = floorLevel;
+        marioObj.onGround = false; 
+    }
+    function stopOnTheRightStep(marioY, floorLevel) {
+        if (marioObj.y > marioY) {
+                marioObj.translateX += moveSpeed;
+                staticPosition -= 5.35; 
+                globalPosition += moveSpeed;
+            }            
+            marioObj.constantFloor = floorLevel;
+            marioObj.onGround = false; 
     }
 }
 
@@ -861,13 +925,10 @@ let globalPx;
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-//////////////////////////////////////////////////////////////////
 //ENEMIES
 
 let enemyMouse = new Image(); 
 enemyMouse.src = "Images/enemy.png";
-
-////////////////////////////////////////////////////////////////
 
 
 function draw() { 
@@ -882,7 +943,6 @@ function draw() {
     drawBricksPhysics();
     tubes();
     pyramidsPhysics();
-
 
     /*
     //counters 
@@ -927,8 +987,8 @@ function draw() {
     //marioObj.jumpLimit
     ctx.fillText("MarioObj.jumpLimit : " + marioObj.jumpLimit , 30, 500);
     ctx.fillText("increaseJumpLimit : " + increaseJumpLimit , 30, 530);
-     ctx.fillText("marioObj.constantFloor : " + marioObj.constantFloor , 30, 560);
-    */   
+    ctx.fillText("marioObj.constantFloor : " + marioObj.constantFloor , 30, 560);
+     */
 
     ctx.closePath();
 }
